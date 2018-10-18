@@ -168,8 +168,30 @@ export const interpolatingPart3 = (
  * It should return the same JSX element as exercice 2 and 4 but uses the parameter of the function as data source.
  */
 
+export const elementFactory = (name, age) => (
+    <div className="card">
+    <h4>
+      {name}
+    </h4>
+    <p>
+      Age: {age}
+    </p>
+  </div>
+);
 
-
+// This would work as well!
+// export const elementFactory = (name, age) => {
+//   return (
+//     <div className="card">
+//       <h4>
+//         {name}
+//       </h4>
+//       <p>
+//         Age: {age}
+//       </p>
+//     </div>
+//   );
+// }
 
   /**
  * 01-8 - interpolating dynamic data part 2
@@ -184,7 +206,16 @@ export const interpolatingPart3 = (
  * Your function will return the same JSX as exercie 7 but you will have to extract the data from the props this time.
  */
 
-
+export const UserCardComponent = (props) => (
+  <div className="card">
+  <h4>
+    {props.name}
+  </h4>
+  <p>
+    Age: {props.age}
+  </p>
+  </div>
+);
 
 
 
