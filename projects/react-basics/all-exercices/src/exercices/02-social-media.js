@@ -74,6 +74,14 @@ export const stephenKing = {
 	bio: "Stephen Edwin King is an American author of horror, supernatural fiction,..."
 }
 
+export const stephenKingCard = (
+	<Author
+		name={stephenKing.name}
+		bio={stephenKing.bio}
+		picture={stephenKing.picture}
+	/>
+);
+
 /**
  * 02-3 - a Post component
  *
