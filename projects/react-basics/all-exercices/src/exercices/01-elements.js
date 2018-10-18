@@ -126,7 +126,7 @@ export const list = interpolateArray.map(
     const content = (
       <li key={index}>
         <h4>Flavor: {element.flavor}</h4>
-        <p>Price: {element.cost}€</p>
+        <p>{`Price: ${element.cost}€`}</p>
       </li>
     );
     return content;
