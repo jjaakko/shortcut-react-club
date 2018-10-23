@@ -32,6 +32,8 @@ export const CrashableTodoList = props => {
  *
  */
 
+export const weakTodoList = <CrashableTodoList todos={[]} />;
+
 /**
  * 03-3 - A javascript Solution
  *
