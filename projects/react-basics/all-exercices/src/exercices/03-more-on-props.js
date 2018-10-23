@@ -46,6 +46,10 @@ export const weakTodoList = <CrashableTodoList todos={[]} />;
  *
  */
 
+export const DefaultParametersTodoList = (props = { todos: [] }) => {
+  return <ul>{props.todos.map(todo => <li key={todo.id}>{todo.task}</li>)}</ul>;
+};
+
 /**
  * 03-4 - Testing your javascript Solution
  *
