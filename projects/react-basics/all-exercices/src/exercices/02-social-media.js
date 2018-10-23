@@ -157,6 +157,14 @@ export const Post = props => (
  *
  * Source: https://twitter.com/StephenKing/status/1045064042816180224
  */
+export const stephenKingPost = (
+  <Post title="Trump's Conference" postedOn="26/09/18" author={stephenKing}>
+    <p>
+      Trump’s news conference is like listening to a nut calling in to a radio
+      sports talk show.
+    </p>
+  </Post>
+);
 
 /**
  * 02-5 SocialMedia component
@@ -180,6 +188,26 @@ export const Post = props => (
  *      - children: the post.content property
  *
  */
+
+export const SocialMedia = props => {
+  const posts = props.posts.map(post => (
+    <Post
+      key={post.id}
+      author={post.author}
+      title={post.title}
+      postedOn={post.date}
+      liked={post.liked}
+    >
+      {post.content}
+    </Post>
+  ));
+  return (
+    <div id="SocialMedia">
+      <h1 id="title">{props.title}</h1>
+      <div className="so-me container">{posts}</div>
+    </div>
+  );
+};
 
 /**
  * 02-6 Using your SocialMedia component
