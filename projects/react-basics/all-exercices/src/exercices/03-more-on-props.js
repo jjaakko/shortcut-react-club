@@ -46,8 +46,9 @@ export const weakTodoList = <CrashableTodoList todos={[]} />;
  *
  */
 
-export const DefaultParametersTodoList = (props = { todos: [] }) => {
-  return <ul>{props.todos.map(todo => <li key={todo.id}>{todo.task}</li>)}</ul>;
+export const DefaultParametersTodoList = props => {
+  const { todos = [] } = props;
+  return <ul>{todos.map(todo => <li key={todo.id}>{todo.task}</li>)}</ul>;
 };
 
 /**
@@ -75,6 +76,7 @@ export const DefaultParametersTodoList = (props = { todos: [] }) => {
  * Now your app should work (and the tests should pass)
  */
 
+export const jsWayTodoList = <DefaultParametersTodoList />;
 /**
  * 03-5 - The React way
  *
