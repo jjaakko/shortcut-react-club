@@ -250,6 +250,8 @@ export const newsPosts = [
   }
 ];
 
+export const newsFeed = <SocialMedia title="News Feed" posts={newsPosts} />;
+
 /**
  * Congratulations!
  *
