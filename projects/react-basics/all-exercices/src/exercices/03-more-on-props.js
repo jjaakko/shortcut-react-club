@@ -15,6 +15,11 @@ import PropTypes from "prop-types";
  *
  */
 
+export const CrashableTodoList = props => {
+  const todos = props.todos.map(todo => <li key={todo.id}>{todo.task}</li>);
+  return <ul>{todos}</ul>;
+};
+
 /**
  * 03-2 - Use crashable component
  *
