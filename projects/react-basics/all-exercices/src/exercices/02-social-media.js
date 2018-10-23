@@ -1,5 +1,5 @@
-import React from 'react'
-import "exercices/02-social-media.css"
+import React from "react";
+import "exercices/02-social-media.css";
 
 /**
  * 02-1 - Mini Project Into Components
@@ -21,20 +21,17 @@ import "exercices/02-social-media.css"
  * - p with className "so-me bio" and the bio as content
  * - a with className "so-me profile-link", href "#/profile" and "View Profile" as content
  *
-*/
+ */
 
-export const Author = (props) => (
-	<div className="so-me author">
-		<img className="so-me user-img" src={props.picture} alt={props.name} />
-		<h4>{props.name}</h4>
-		<p className="so-me bio">
-			{props.bio}
-		</p>
-		<a className="so-me profile-link" href="#/profile">
-		View Profile
-	</a>
-
-</div>
+export const Author = props => (
+  <div className="so-me author">
+    <img className="so-me user-img" src={props.picture} alt={props.name} />
+    <h4>{props.name}</h4>
+    <p className="so-me bio">{props.bio}</p>
+    <a className="so-me profile-link" href="#/profile">
+      View Profile
+    </a>
+  </div>
 );
 
 /**
@@ -69,17 +66,18 @@ export const Author = (props) => (
  */
 
 export const stephenKing = {
-	name: "Stephen King",
-	picture: "http://www.famousbirthdays.com/headshots/stephen-king-1.jpg",
-	bio: "Stephen Edwin King is an American author of horror, supernatural fiction,..."
-}
+  name: "Stephen King",
+  picture: "http://www.famousbirthdays.com/headshots/stephen-king-1.jpg",
+  bio:
+    "Stephen Edwin King is an American author of horror, supernatural fiction,..."
+};
 
 export const stephenKingCard = (
-	<Author
-		name={stephenKing.name}
-		bio={stephenKing.bio}
-		picture={stephenKing.picture}
-	/>
+  <Author
+    name={stephenKing.name}
+    bio={stephenKing.bio}
+    picture={stephenKing.picture}
+  />
 );
 
 /**
@@ -119,6 +117,25 @@ export const stephenKingCard = (
  *  Check the react documentation about children for more details.
  */
 
+export const Post = props => (
+  <div className="so-me post">
+    <Author
+      name={props.author.name}
+      bio={props.author.bio}
+      picture={props.author.picture}
+    />
+    <div className="so-me content">
+      <h3>
+        {props.title}
+        <a className="so-me thumb" href="#/like">
+          <i className="fas fa-thumbs-up">{props.children}</i>
+        </a>
+      </h3>
+    </div>
+    <div className="so-me text" />
+  </div>
+);
+
 /**
  * 02-4 - Using your Post component
  *
@@ -135,10 +152,6 @@ export const stephenKingCard = (
  *
  * Source: https://twitter.com/StephenKing/status/1045064042816180224
  */
-
-
-
-
 
 /**
  * 02-5 SocialMedia component
@@ -163,9 +176,6 @@ export const stephenKingCard = (
  *
  */
 
-
-
-
 /**
  * 02-6 Using your SocialMedia component
  *
@@ -178,27 +188,34 @@ export const stephenKingCard = (
  */
 
 export const newsPosts = [
-	{
-		id: 1,
-		author: stephenKing,
-		title: "Trump's Conference",
-		date: "26/09/18",
-		content: <p>Trump’s news conference is like listening to a nut calling in to a radio sports talk show.</p>
-	},
-	{
-		id: 2,
-		author: {
-			name: "J. K. Rowling",
-			picture: "https://duckduckgo.com/i/181bb6c8.jpg",
-			bio: "Joanne Rowling is best known for writing the Harry Potter fantasy series."
-		},
-		title: "Fantastic Beasts",
-		date: "25/09/18",
-		liked: true,
-		content: <p>I cannot move against Grindelwald.' He has a reason. Be patient...</p>
-	}
-]
-
+  {
+    id: 1,
+    author: stephenKing,
+    title: "Trump's Conference",
+    date: "26/09/18",
+    content: (
+      <p>
+        Trump’s news conference is like listening to a nut calling in to a radio
+        sports talk show.
+      </p>
+    )
+  },
+  {
+    id: 2,
+    author: {
+      name: "J. K. Rowling",
+      picture: "https://duckduckgo.com/i/181bb6c8.jpg",
+      bio:
+        "Joanne Rowling is best known for writing the Harry Potter fantasy series."
+    },
+    title: "Fantastic Beasts",
+    date: "25/09/18",
+    liked: true,
+    content: (
+      <p>I cannot move against Grindelwald.' He has a reason. Be patient...</p>
+    )
+  }
+];
 
 /**
  * Congratulations!
