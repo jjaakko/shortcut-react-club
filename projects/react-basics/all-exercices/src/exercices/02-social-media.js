@@ -125,14 +125,19 @@ export const Post = props => (
       picture={props.author.picture}
     />
     <div className="so-me content">
-      <h3>
+      <h3 className="so-me title">
         {props.title}
         <a className="so-me thumb" href="#/like">
-          <i className="fas fa-thumbs-up">{props.children}</i>
+          {props.liked ? (
+            <i className="fas fa-thumbs-up" />
+          ) : (
+            <i className="far fa-thumbs-up" />
+          )}
         </a>
       </h3>
+      <div className="so-me text">{props.children}</div>
+      <p className="so-me metadata">Posted on {props.postedOn}</p>
     </div>
-    <div className="so-me text" />
   </div>
 );
 
