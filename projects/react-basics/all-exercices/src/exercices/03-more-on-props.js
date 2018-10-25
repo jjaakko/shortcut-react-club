@@ -105,6 +105,14 @@ export const jsWayTodoList = <DefaultParametersTodoList />;
  *
  */
 
+export const BestTodoList = props => {
+  const todos = props.todos.map(todo => <li key={todo.id}>{todo.task}</li>);
+  return <ul>{todos}</ul>;
+};
+BestTodoList.defaultProps = {
+  todos: []
+};
+
 /**
  * 03-6 - Testing your last component
  *
@@ -112,6 +120,8 @@ export const jsWayTodoList = <DefaultParametersTodoList />;
  * Your component should now render without crashing!
  *
  */
+
+export const bestTodoList = <BestTodoList />;
 
 /**
  * 03-7 - Testing your last component again
@@ -125,6 +135,8 @@ export const todos = [
   { id: "2", task: "learn props" },
   { id: "3", task: "learn defaultProps" }
 ];
+
+export const bestTodoListWithProps = <BestTodoList todos={todos} />;
 
 /**
  * 03-8 - prop type checking
@@ -146,6 +158,15 @@ export const todos = [
  * Read the documentation to learn how to do that!
  *
  */
+
+BestTodoList.propTypes = {
+  todos: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      task: PropTypes.string.isRequired
+    })
+  ).isRequired
+};
 
 /**
  * Congrats! Now you should better understand props and React Prop api!
