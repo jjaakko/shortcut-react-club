@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 /**
  * 01-1 - A first JSX element
  *
@@ -13,10 +13,10 @@ import React from "react"
  *
  */
 
- //Your answer here
- export const helloWorld = <h1>Hello World!</h1>;
+//Your answer here
+export const helloWorld = <h1>Hello World!</h1>;
 
- /**
+/**
  * 01-2 - nested JSX
  *
  * Now let's make a more complex element.
@@ -47,12 +47,9 @@ import React from "react"
 export const nestedJSX = (
   <div className="card">
     <h4>John Doe</h4>
-    <p>
-      Age: 42
-    </p>
+    <p>Age: 42</p>
   </div>
 );
-
 
 /**
  * 01-3 - interpolating data part 1
@@ -68,13 +65,8 @@ export const nestedJSX = (
  *
  */
 
-export const interpolateText = "I am a JS string"
-export const interpolatingPart1 = (
-  <div>
-    {interpolateText}
-  </div>
-);
-
+export const interpolateText = "I am a JS string";
+export const interpolatingPart1 = <div>{interpolateText}</div>;
 
 /**
  * 01-4 - interpolating data part 2
@@ -89,19 +81,16 @@ export const interpolatingPart1 = (
  * - the p should print the correct age
  */
 
-export const interpolateUser = {name: "Jeanne", age: 30};
+export const interpolateUser = { name: "Jeanne", age: 30 };
 
 export const interpolatingPart2 = (
   <div className="card">
     <h4>{interpolateUser.name}</h4>
-    <p>
-      Age: {interpolateUser.age}
-    </p>
+    <p>Age: {interpolateUser.age}</p>
   </div>
 );
 
-
- /**
+/**
  * 01-5 - interpolating data part 3
  *
  * Now an even more complex element.
@@ -119,30 +108,27 @@ export const interpolatingPart2 = (
  * - a p element with text: `Price: ${the price}€`
  *
  */
-export const interpolateArray = [{flavor: "chocolate", cost: 2}, {flavor: "vanilla", cost: 1.5}, {flavor: "papaya", cost: 3}];
+export const interpolateArray = [
+  { flavor: "chocolate", cost: 2 },
+  { flavor: "vanilla", cost: 1.5 },
+  { flavor: "papaya", cost: 3 }
+];
 
-export const list = interpolateArray.map(
-  (element, index) => {
-    const content = (
-      <li key={index}>
-        <h4>Flavor: {element.flavor}</h4>
-        <p>{`Price: ${element.cost}€`}</p>
-      </li>
-    );
-    return content;
-  }
-);
+export const list = interpolateArray.map((element, index) => {
+  const content = (
+    <li key={index}>
+      <h4>Flavor: {element.flavor}</h4>
+      <p>{`Price: ${element.cost}€`}</p>
+    </li>
+  );
+  return content;
+});
 
-export const interpolatingPart3 = (
-  <ul>
-    {list}
-  </ul>
-);
+export const interpolatingPart3 = <ul>{list}</ul>;
 
 //const var1 = `string ${}`
 
-
- /**
+/**
  * 01-6 - interpolating data part 4
  *
  * If you run the previous exercice, you might have seen this warning:
@@ -156,8 +142,7 @@ export const interpolatingPart3 = (
  * Check that you don't have the warning anymore.
  */
 
-
- /**
+/**
  * 01-7 - interpolating dynamic data part 1
  *
  * Now we are going to make some slightly more interesting elements: we are giving ourselves the possibility to reuse the elements!
@@ -169,13 +154,9 @@ export const interpolatingPart3 = (
  */
 
 export const elementFactory = (name, age) => (
-    <div className="card">
-    <h4>
-      {name}
-    </h4>
-    <p>
-      Age: {age}
-    </p>
+  <div className="card">
+    <h4>{name}</h4>
+    <p>Age: {age}</p>
   </div>
 );
 
@@ -193,7 +174,7 @@ export const elementFactory = (name, age) => (
 //   );
 // }
 
-  /**
+/**
  * 01-8 - interpolating dynamic data part 2
  *
  * The previous example works fine, but what if you want to have dozens of parameters? You would have to refactor your code every time.
@@ -206,40 +187,21 @@ export const elementFactory = (name, age) => (
  * Your function will return the same JSX as exercie 7 but you will have to extract the data from the props this time.
  */
 
-export const UserCardComponent = (props) => (
+export const UserCardComponent = props => (
   <div className="card">
-  <h4>
-    {props.name}
-  </h4>
-  <p>
-    Age: {props.age}
-  </p>
+    <h4>{props.name}</h4>
+    <p>Age: {props.age}</p>
   </div>
 );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- /**
-  * Congratulations !
-  *
-  * Your last exercices is actually a valid React Components!
-  *
-  * React components are just this: functions that returns JSX (HTML-like) templates!
-  * The "props" are the data you inject into your components to make them dynamic.
-  *
-  * In the next exercices we will dive deeper into the usage of "props" !
-  *
-  */
+/**
+ * Congratulations !
+ *
+ * Your last exercices is actually a valid React Components!
+ *
+ * React components are just this: functions that returns JSX (HTML-like) templates!
+ * The "props" are the data you inject into your components to make them dynamic.
+ *
+ * In the next exercices we will dive deeper into the usage of "props" !
+ *
+ */
