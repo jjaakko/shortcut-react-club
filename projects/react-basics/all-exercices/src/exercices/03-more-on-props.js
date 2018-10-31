@@ -105,10 +105,10 @@ export const jsWayTodoList = <DefaultParametersTodoList />;
  *
  */
 
-export const BestTodoList = props => {
+export function BestTodoList(props) {
   const todos = props.todos.map(todo => <li key={todo.id}>{todo.task}</li>);
   return <ul>{todos}</ul>;
-};
+}
 BestTodoList.defaultProps = {
   todos: []
 };
