@@ -85,6 +85,7 @@ export class SmartCounter extends Component {
     handleClick() {
         //console.log(this.state);
         this.setState({
+            // see https://stackoverflow.com/a/3469896
             count: ++this.state.count
         });
     }
