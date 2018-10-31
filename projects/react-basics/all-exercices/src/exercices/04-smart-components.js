@@ -126,3 +126,5 @@ export const myCounter = <SmartCounter />;
  * Another part is that React will only update the DOM if the props or the state changed,
  * and because you'll never mutate (change) either of them yourself (always use setState), React will be able to perfom it's task efficiently!
  */
+
+export const mySecondCounter = <SmartCounter />;
