@@ -80,17 +80,26 @@ export class SmartCounter extends Component {
         this.state = {
             count: 0
         };
+        this.handleClick = this.handleClick.bind(this);
+    }
+    handleClick() {
+        //console.log(this.state);
+        this.setState({
+            count: ++this.state.count
+        });
     }
     render() {
         const props = this.props;
         return (
             <div>
-                <button>Click me</button>
+                <button onClick={this.handleClick}>Click me</button>
                 <p>{this.state.count}</p>
             </div>
         );
     }
 }
+
+export const myCounter = <SmartCounter />;
 
 /**
  * 04-6 Conclusion(ish)
