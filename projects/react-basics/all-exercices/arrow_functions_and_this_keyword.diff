@@ -1,0 +1,23 @@
+diff --git a/projects/react-basics/all-exercices/src/exercices/04-smart-components.js b/projects/react-basics/all-exercices/src/exercices/04-smart-components.js
+index 5f759b9..9dc7a84 100644
+--- a/projects/react-basics/all-exercices/src/exercices/04-smart-components.js
++++ b/projects/react-basics/all-exercices/src/exercices/04-smart-components.js
+@@ -80,15 +80,15 @@ export class SmartCounter extends Component {
+         this.state = {
+             count: 0
+         };
+-        this.handleClick = this.handleClick.bind(this);
++        //this.handleClick = this.handleClick.bind(this);
+     }
+-    handleClick() {
++    handleClick = () => {
+         //console.log(this.state);
+         this.setState({
+             // see https://stackoverflow.com/a/3469896
+             count: ++this.state.count
+         });
+-    }
++    };
+     render() {
+         const props = this.props;
+         return (
