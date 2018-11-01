@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
+import {Card} from './Card.js';
 
 function getRandomInt(max) {
   return Math.floor(Math.random()*max);
@@ -16,22 +16,28 @@ export class App extends Component {
       cardsOnTable: [],
       numberOfCards: 8
     };
+  }
+  
+  componentDidMount() {
     this.shuffle();
   }
   
   shuffle() {
     var i;
+    let cardsOnTable = [];
     for (i=0;i<=this.state.numberOfCards;i++) {
       // choose suite randomly
       const suite = getRandomInt(4);
       // choose card name randomly
       const rank = getRandomInt(13);
-      this.state.cardsOnTable[i] = {
+      cardsOnTable[i] = {
         suite: suites[suite],
         rank: ranks[rank]
       };
-      console.log(this.state.cardsOnTable[i]);
     }
+    this.setState({
+      cardsOnTable: cardsOnTable
+    });
   }
   
   render() {
@@ -49,6 +55,7 @@ export class App extends Component {
 						</div>
 					</div>
 
+          <Card suite='diamonds' rank='J' />
 					<div className={"card diamonds"}> <p>A</p> </div>
 					<div className={"card hearts"}> <p>K</p> </div>
 					<div className={"card clubs"}> <p>J</p> </div>
