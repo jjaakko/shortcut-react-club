@@ -25,7 +25,7 @@ export class App extends Component {
   shuffle() {
     var i;
     let cardsOnTable = [];
-    for (i=0;i<=this.state.numberOfCards;i++) {
+    for (i=0;i<this.state.numberOfCards;i++) {
       // choose suite randomly
       const suite = getRandomInt(4);
       // choose card name randomly
@@ -55,15 +55,9 @@ export class App extends Component {
 						</div>
 					</div>
 
-          <Card suite='diamonds' rank='J' />
-					<div className={"card diamonds"}> <p>A</p> </div>
-					<div className={"card hearts"}> <p>K</p> </div>
-					<div className={"card clubs"}> <p>J</p> </div>
-					<div className={"card spades"}> <p>Q</p> </div>
-					<div className={"card diamonds hidden"}> <p>10</p> </div>
-					<div className={"card hearts hidden"}> <p>9</p> </div>
-					<div className={"card clubs hidden"}> <p>A</p> </div>
-					<div className={"card spades hidden"}> <p>A</p> </div>
+          {this.state.cardsOnTable.map((card, index) => (
+            <Card suite={card.suite} rank={card.rank} />
+          ))}
 
 				</div>
 
