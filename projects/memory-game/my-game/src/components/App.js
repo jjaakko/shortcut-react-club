@@ -24,19 +24,21 @@ export class App extends Component {
   
   shuffle() {
     var i;
-    let cardsOnTable = [];
-    for (i=0;i<this.state.numberOfCards;i++) {
+    let halfOfRandomCards = [];
+    for (i=0;i<this.state.numberOfCards/2;i++) {
       // choose suite randomly
       const suite = getRandomInt(4);
       // choose card name randomly
       const rank = getRandomInt(13);
-      cardsOnTable[i] = {
+      halfOfRandomCards[i] = {
         suite: suites[suite],
-        rank: ranks[rank]
+        rank: ranks[rank],
       };
     }
+    const randomCards = halfOfRandomCards.concat(halfOfRandomCards);
+    console.log(randomCards);
     this.setState({
-      cardsOnTable: cardsOnTable
+      cardsOnTable: randomCards
     });
   }
   
