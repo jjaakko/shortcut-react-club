@@ -1,11 +1,8 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {App} from './components/App.js';
-import './index.css';
-import registerServiceWorker from './registerServiceWorker';
 
-class StarterCode extends React.Component {
-	render() {
+export class App extends Component {
+  render() {
 		return (
 			<div className="MemoryApp">
 
@@ -32,9 +29,6 @@ class StarterCode extends React.Component {
 				</div>
 
 			</div>
-		)
+		);
 	}
 }
-
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
