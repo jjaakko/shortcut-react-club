@@ -32,12 +32,80 @@ export class App extends Component {
     super(props);
     this.state = {
       cardsOnTable: [],
-      numberOfCards: 8
+      numberOfCards: 8,
+      numberOfTurnedCards: 0
     };
+    this.clickCard = this.clickCard.bind(this);
   }
 
   componentDidMount() {
     this.shuffle();
+  }
+
+  clickCard(id) {
+    console.log("Card " + id + " clicked!");
+    let cardsOnTable = this.state.cardsOnTable;
+    cardsOnTable[id].visibility = "visible";
+    //console.table(this.getVisibleCardIds());
+    if (!this.lookingForFirstCard()) {
+      console.log("2nd click");
+      this.playerHasPair();
+      window.setTimeout(() => {
+        this.hideAllButPairs();
+      }, 2000);
+    }
+    let numberOfTurnedCards = this.state.numberOfTurnedCards;
+    this.setState({
+      cardsOnTable: cardsOnTable,
+      numberOfTurnedCards: ++numberOfTurnedCards
+    });
+  }
+
+  hideAllButPairs() {
+    let cardsOnTable = this.state.cardsOnTable;
+    cardsOnTable.forEach(function(card, index) {
+      // hide card if the pair of this card is not found yet
+      if (!card.hasPair) card.visibility = "hidden";
+    });
+    this.setState({
+      cardsOnTable: cardsOnTable
+    });
+  }
+
+  getVisibleNoPairCardIds() {
+    let visible = [];
+    this.state.cardsOnTable.forEach(function(card, index) {
+      if (card.visibility === "visible" && card.hasPair === false)
+        visible.push(card.id);
+    });
+    return visible;
+  }
+
+  playerHasPair() {
+    const visible = this.getVisibleNoPairCardIds();
+    if (visible.length < 2) return false;
+    if (
+      this.state.cardsOnTable[visible[0]].suite ===
+        this.state.cardsOnTable[visible[1]].suite &&
+      this.state.cardsOnTable[visible[0]].rank ===
+        this.state.cardsOnTable[visible[1]].rank
+    ) {
+      console.log("New pair found");
+      let cardsOnTable = this.state.cardsOnTable;
+      cardsOnTable[visible[0]].hasPair = true;
+      cardsOnTable[visible[1]].hasPair = true;
+      this.setState({
+        cardsOnTable: cardsOnTable
+      });
+      return true;
+    }
+  }
+
+  lookingForFirstCard() {
+    if (this.state.numberOfTurnedCards % 2 === 0) {
+      return true;
+    }
+    return false;
   }
 
   shuffle() {
@@ -61,9 +129,11 @@ export class App extends Component {
       let randomIndex = getRandomInt(randomCards.length);
       let card = randomCards[randomIndex];
       cardsInRandomOrder[i] = {
+        id: i,
         suite: card.suite,
         rank: card.rank,
-        id: i
+        visibility: "hidden",
+        hasPair: false
       };
       console.table(randomCards);
       randomCards.splice(randomIndex, 1);
@@ -89,7 +159,14 @@ export class App extends Component {
           </div>
 
           {this.state.cardsOnTable.map((card, index) => (
-            <Card key={card.id} suite={card.suite} rank={card.rank} />
+            <Card
+              key={card.id}
+              visibility={card.visibility}
+              suite={card.suite}
+              rank={card.rank}
+              clickCard={this.clickCard}
+              id={card.id}
+            />
           ))}
         </div>
       </div>
