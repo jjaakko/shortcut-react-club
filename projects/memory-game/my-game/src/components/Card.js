@@ -6,7 +6,11 @@ export function Card(props) {
       className={
         "card " + props.suite + " " + (props.visibility ? "visible" : "hidden")
       }
-      onClick={props.visibility ? undefined : () => props.clickCard(props.id)}
+      onClick={
+        props.visibility || props.disableClicking
+          ? undefined
+          : () => props.clickCard(props.id)
+      }
     >
       {" "}
       <p>{props.rank}</p>

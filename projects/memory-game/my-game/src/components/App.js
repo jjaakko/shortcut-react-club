@@ -36,7 +36,6 @@ export class App extends Component {
       numberOfTurnedCards: 0,
       disableClicking: false
     };
-    this.checkForPair = false;
     this.clickCard = this.clickCard.bind(this);
   }
 
@@ -45,7 +44,6 @@ export class App extends Component {
   }
 
   clickCard(id) {
-    this.checkForPair = true;
     console.log("Card " + id + " clicked!");
     // NNO!! This leads cardsOnTable to reference this.state.cardsOnTable
     // changing cardsOnTable would lead to changing the actual state
@@ -62,14 +60,16 @@ export class App extends Component {
     });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     console.log("k" + this.state.numberOfTurnedCards);
-    if (this.checkForPair && this.lookingForSecondCard()) {
+    if (
+      this.state.numberOfTurnedCards !== prevState.numberOfTurnedCards &&
+      this.lookingForSecondCard()
+    ) {
       console.log("2nd click");
       this.playerHasPair();
       window.setTimeout(() => {
         this.hideAllButPairs();
-        this.checkForPair = false;
         this.setState({
           disableClicking: false
         });
@@ -186,6 +186,7 @@ export class App extends Component {
               rank={card.rank}
               clickCard={this.clickCard}
               id={card.id}
+              disableClicking={this.state.disableClicking}
             />
           ))}
         </div>
