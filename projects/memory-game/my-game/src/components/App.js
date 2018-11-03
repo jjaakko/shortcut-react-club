@@ -62,21 +62,26 @@ export class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     console.log("k" + this.state.numberOfTurnedCards);
+    // to prevent infinite loop, we must check for a pair ONLY
+    // if the event causing the call of componentDidUpdate is player clicking a card
+    // instead of the game just updating the state (for example hiding the cards)
     if (
       this.state.numberOfTurnedCards !== prevState.numberOfTurnedCards &&
       this.lookingForSecondCard()
     ) {
       console.log("2nd click");
-      this.playerHasPair();
-      window.setTimeout(() => {
-        this.hideAllButPairs();
+      if (!this.playerHasPair()) {
+        // set timeout only if player did not find a pair
+        window.setTimeout(() => {
+          this.hideAllButPairs();
+          this.setState({
+            disableClicking: false
+          });
+        }, 1500);
         this.setState({
-          disableClicking: false
+          disableClicking: true
         });
-      }, 1500);
-      this.setState({
-        disableClicking: true
-      });
+      }
     }
   }
 
@@ -119,6 +124,7 @@ export class App extends Component {
       });
       return true;
     }
+    return false;
   }
 
   lookingForSecondCard() {
