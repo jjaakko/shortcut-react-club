@@ -62,7 +62,8 @@ export class App extends Component {
       let card = randomCards[randomIndex];
       cardsInRandomOrder[i] = {
         suite: card.suite,
-        rank: card.rank
+        rank: card.rank,
+        id: i
       };
       console.log(randomCards);
       randomCards.splice(randomIndex, 1);
@@ -88,7 +89,7 @@ export class App extends Component {
           </div>
 
           {this.state.cardsOnTable.map((card, index) => (
-            <Card suite={card.suite} rank={card.rank} />
+            <Card key={card.id} suite={card.suite} rank={card.rank} />
           ))}
         </div>
       </div>

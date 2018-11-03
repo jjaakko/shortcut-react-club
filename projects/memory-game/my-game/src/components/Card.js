@@ -1,7 +1,10 @@
-import React, {Component} from 'react';
+import React from "react";
 
 export function Card(props) {
   return (
-    <div className={"card " + props.suite}> <p>{props.rank}</p></div>
+    <div className={"card " + props.suite}>
+      {" "}
+      <p>{props.rank}</p>
+    </div>
   );
 }
