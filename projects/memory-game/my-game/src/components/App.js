@@ -49,6 +49,7 @@ export class App extends Component {
     // changing cardsOnTable would lead to changing the actual state
     // without using setState...
     // let cardsOnTable = this.state.cardsOnTable;
+
     // Instead, let's make a deep copy
     let cardsOnTable = JSON.parse(JSON.stringify(this.state.cardsOnTable));
 
@@ -65,6 +66,7 @@ export class App extends Component {
     // to prevent infinite loop, we must check for a pair ONLY
     // if the event causing the call of componentDidUpdate is player clicking a card
     // instead of the game just updating the state (for example hiding the cards)
+    // see https://reactjs.org/docs/react-component.html#componentdidupdate
     if (
       this.state.numberOfTurnedCards !== prevState.numberOfTurnedCards &&
       this.lookingForSecondCard()
