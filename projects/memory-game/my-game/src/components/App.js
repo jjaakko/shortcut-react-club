@@ -36,6 +36,7 @@ export class App extends Component {
       numberOfTurnedCards: 0,
       disableClicking: false
     };
+    this.checkForPair = false;
     this.clickCard = this.clickCard.bind(this);
   }
 
@@ -44,26 +45,44 @@ export class App extends Component {
   }
 
   clickCard(id) {
+    this.checkForPair = true;
     console.log("Card " + id + " clicked!");
-    let cardsOnTable = this.state.cardsOnTable;
+    // NNO!! This leads cardsOnTable to reference this.state.cardsOnTable
+    // changing cardsOnTable would lead to changing the actual state
+    // without using setState...
+    // let cardsOnTable = this.state.cardsOnTable;
+    // Instead, let's make a deep copy
+    let cardsOnTable = JSON.parse(JSON.stringify(this.state.cardsOnTable));
+
     cardsOnTable[id].visibility = true;
-    //console.table(this.getVisibleCardIds());
-    if (!this.lookingForFirstCard()) {
+
+    this.setState({
+      cardsOnTable: cardsOnTable,
+      numberOfTurnedCards: this.state.numberOfTurnedCards + 1
+    });
+  }
+
+  componentDidUpdate() {
+    console.log("k" + this.state.numberOfTurnedCards);
+    if (this.checkForPair && this.lookingForSecondCard()) {
       console.log("2nd click");
       this.playerHasPair();
       window.setTimeout(() => {
         this.hideAllButPairs();
-      }, 1000);
+        this.checkForPair = false;
+        this.setState({
+          disableClicking: false
+        });
+      }, 1500);
+      this.setState({
+        disableClicking: true
+      });
     }
-    let numberOfTurnedCards = this.state.numberOfTurnedCards;
-    this.setState({
-      cardsOnTable: cardsOnTable,
-      numberOfTurnedCards: ++numberOfTurnedCards
-    });
   }
 
   hideAllButPairs() {
-    let cardsOnTable = this.state.cardsOnTable;
+    let cardsOnTable = JSON.parse(JSON.stringify(this.state.cardsOnTable));
+
     cardsOnTable.forEach(function(card, index) {
       // hide card if the pair of this card is not found yet
       if (!card.hasPair) card.visibility = false;
@@ -92,7 +111,7 @@ export class App extends Component {
         this.state.cardsOnTable[visible[1]].rank
     ) {
       console.log("New pair found");
-      let cardsOnTable = this.state.cardsOnTable;
+      let cardsOnTable = JSON.parse(JSON.stringify(this.state.cardsOnTable));
       cardsOnTable[visible[0]].hasPair = true;
       cardsOnTable[visible[1]].hasPair = true;
       this.setState({
@@ -102,7 +121,7 @@ export class App extends Component {
     }
   }
 
-  lookingForFirstCard() {
+  lookingForSecondCard() {
     if (this.state.numberOfTurnedCards % 2 === 0) {
       return true;
     }
