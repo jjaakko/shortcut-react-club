@@ -33,7 +33,8 @@ export class App extends Component {
     this.state = {
       cardsOnTable: [],
       numberOfCards: 8,
-      numberOfTurnedCards: 0
+      numberOfTurnedCards: 0,
+      disableClicking: false
     };
     this.clickCard = this.clickCard.bind(this);
   }
@@ -45,14 +46,14 @@ export class App extends Component {
   clickCard(id) {
     console.log("Card " + id + " clicked!");
     let cardsOnTable = this.state.cardsOnTable;
-    cardsOnTable[id].visibility = "visible";
+    cardsOnTable[id].visibility = true;
     //console.table(this.getVisibleCardIds());
     if (!this.lookingForFirstCard()) {
       console.log("2nd click");
       this.playerHasPair();
       window.setTimeout(() => {
         this.hideAllButPairs();
-      }, 2000);
+      }, 1000);
     }
     let numberOfTurnedCards = this.state.numberOfTurnedCards;
     this.setState({
@@ -65,7 +66,7 @@ export class App extends Component {
     let cardsOnTable = this.state.cardsOnTable;
     cardsOnTable.forEach(function(card, index) {
       // hide card if the pair of this card is not found yet
-      if (!card.hasPair) card.visibility = "hidden";
+      if (!card.hasPair) card.visibility = false;
     });
     this.setState({
       cardsOnTable: cardsOnTable
@@ -75,7 +76,7 @@ export class App extends Component {
   getVisibleNoPairCardIds() {
     let visible = [];
     this.state.cardsOnTable.forEach(function(card, index) {
-      if (card.visibility === "visible" && card.hasPair === false)
+      if (card.visibility === true && card.hasPair === false)
         visible.push(card.id);
     });
     return visible;
@@ -132,7 +133,7 @@ export class App extends Component {
         id: i,
         suite: card.suite,
         rank: card.rank,
-        visibility: "hidden",
+        visibility: false,
         hasPair: false
       };
       console.table(randomCards);
