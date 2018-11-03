@@ -1,15 +1,33 @@
-import React, {Component} from 'react';
-import {Card} from './Card.js';
+import React, { Component } from "react";
+import { Card } from "./Card.js";
 
+/**
+ * Returns pseudorandom number
+ * @param  {int} max [description]
+ * @return {int}     0 <= the returned value < max
+ */
 function getRandomInt(max) {
-  return Math.floor(Math.random()*max);
+  return Math.floor(Math.random() * max);
 }
 
-const suites = ['diamonds', 'hearts', 'clubs', 'spades'];
-const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+const suites = ["diamonds", "hearts", "clubs", "spades"];
+const ranks = [
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "J",
+  "Q",
+  "K",
+  "A"
+];
 
 export class App extends Component {
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -17,53 +35,63 @@ export class App extends Component {
       numberOfCards: 8
     };
   }
-  
+
   componentDidMount() {
     this.shuffle();
   }
-  
+
   shuffle() {
-    var i;
+    let i;
     let halfOfRandomCards = [];
-    for (i=0;i<this.state.numberOfCards/2;i++) {
+    let cardsInRandomOrder = [];
+    for (i = 0; i < this.state.numberOfCards / 2; i++) {
       // choose suite randomly
       const suite = getRandomInt(4);
       // choose card name randomly
       const rank = getRandomInt(13);
       halfOfRandomCards[i] = {
         suite: suites[suite],
-        rank: ranks[rank],
+        rank: ranks[rank]
       };
     }
     const randomCards = halfOfRandomCards.concat(halfOfRandomCards);
-    console.log(randomCards);
+    // we have now all of our cards but the order is not randomly
+    // let's fix that
+    for (i = 0; i < this.state.numberOfCards; i++) {
+      let randomIndex = getRandomInt(randomCards.length);
+      let card = randomCards[randomIndex];
+      cardsInRandomOrder[i] = {
+        suite: card.suite,
+        rank: card.rank
+      };
+      console.log(randomCards);
+      randomCards.splice(randomIndex, 1);
+    }
+    //console.log(randomCards);
+    console.log(cardsInRandomOrder);
     this.setState({
-      cardsOnTable: randomCards
+      cardsOnTable: cardsInRandomOrder
     });
   }
-  
+
   render() {
-		return (
-			<div className="MemoryApp">
+    return (
+      <div className="MemoryApp">
+        <div className={"game"}>
+          <div className={"modal"}>
+            <div className={"menu"}>
+              <h2 className={"white"}>Congrats !</h2>
 
-				<div className={"game"}>
-					<div className={"modal"}>
-						<div className={"menu"}>
-							<h2 className={"white"} >Congrats !</h2>
-
-							<div className="menuItem"> Play Again </div>
-							<div className="menuItem"> Main Menu </div>
-
-						</div>
-					</div>
+              <div className="menuItem"> Play Again </div>
+              <div className="menuItem"> Main Menu </div>
+            </div>
+          </div>
 
           {this.state.cardsOnTable.map((card, index) => (
             <Card suite={card.suite} rank={card.rank} />
           ))}
-
-				</div>
-
-			</div>
-		);
-	}
+        </div>
+      </div>
+    );
+  }
 }
