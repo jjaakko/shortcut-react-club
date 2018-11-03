@@ -65,7 +65,7 @@ export class App extends Component {
         rank: card.rank,
         id: i
       };
-      console.log(randomCards);
+      console.table(randomCards);
       randomCards.splice(randomIndex, 1);
     }
     //console.log(randomCards);
