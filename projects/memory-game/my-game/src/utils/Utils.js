@@ -25,7 +25,7 @@ export const ranks = [
 ];
 
 export class Deck {
-  static getDeck() {
+  constructor() {
     let i = 0;
     let deckOfCards = [];
     for (let suite = 0; suite < 4; suite++) {
@@ -37,7 +37,24 @@ export class Deck {
         i++;
       }
     }
-    console.table(deckOfCards);
-    return deckOfCards;
+    this.deck = deckOfCards;
+  }
+
+  getDeck() {
+    return this.deck;
+  }
+
+  getRandomCard() {
+    // pick random card from the deck
+    let randomIndex = getRandomInt(this.deck.length);
+    let card = this.deck[randomIndex];
+
+    // remove card so that the same card can't be picked again
+
+    // the line below would change card as well
+    // this.deck[randomIndex].something = 5;
+    // so how come it be that when the orignal object is removed, the card still has its value?
+    this.deck.splice(randomIndex, 1);
+    return card;
   }
 }

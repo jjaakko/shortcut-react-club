@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getRandomInt, Deck, suites, ranks } from "../utils/Utils.js";
+import { getRandomInt, Deck } from "../utils/Utils.js";
 import { Card } from "./Card.js";
 
 export class App extends Component {
@@ -12,7 +12,6 @@ export class App extends Component {
       disableClicking: false
     };
     this.clickCard = this.clickCard.bind(this);
-    Deck.getDeck();
   }
 
   componentDidMount() {
@@ -115,24 +114,22 @@ export class App extends Component {
   shuffle() {
     let pairs = [];
     let cardsInRandomOrder = [];
-    let deck = Deck.getDeck();
+    let deckObj = new Deck();
+    //let deck = deckObj.getDeck();
     // pick numberOfPairs cards from the Deck
     for (let i = 0; i < this.state.numberOfPairs; i++) {
-      // pick random card from the deck
-      let randomIndex = getRandomInt(deck.length);
-      pairs[i] = deck[randomIndex];
-      // remove card so that we can't pick it up later
-      deck.splice(randomIndex, 1);
+      pairs[i] = deckObj.getRandomCard();
     }
 
-    // every pair contains 2 cards, let's put all the cards into an array
-    const randomCards = pairs.concat(pairs);
-    // we have now all of our cards but the order is not random
+    // every pair contains 2 cards, let's put all individual
+    // cards into an array
+    const cards = pairs.concat(pairs);
+    // we have now all of our individual cards but the order is not random
     // let's make a array where all the cards are in random order and add more
     // properties to each card
     for (let i = 0; i < this.state.numberOfPairs * 2; i++) {
-      let randomIndex = getRandomInt(randomCards.length);
-      let card = randomCards[randomIndex];
+      let randomIndex = getRandomInt(cards.length);
+      let card = cards[randomIndex];
       cardsInRandomOrder[i] = {
         id: i,
         suite: card.suite,
@@ -140,11 +137,9 @@ export class App extends Component {
         visibility: false,
         hasPair: false
       };
-      console.table(randomCards);
-      randomCards.splice(randomIndex, 1);
+      cards.splice(randomIndex, 1);
     }
-    //console.log(randomCards);
-    console.log(cardsInRandomOrder);
+    console.table(cardsInRandomOrder);
     this.setState({
       cardsOnTable: cardsInRandomOrder
     });
