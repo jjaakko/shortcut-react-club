@@ -1,56 +1,13 @@
 import React, { Component } from "react";
+import { getRandomInt, Deck, suites, ranks } from "../utils/Utils.js";
 import { Card } from "./Card.js";
-
-/**
- * Returns pseudorandom number
- * @param  {int} max [description]
- * @return {int}     0 <= the returned value < max
- */
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
-class Deck {
-  static getDeck() {
-    let i = 0;
-    let deckOfCards = [];
-    for (let suite = 0; suite < 4; suite++) {
-      for (let rank = 0; rank < 13; rank++) {
-        deckOfCards[i] = {
-          suite: suites[suite],
-          rank: ranks[rank]
-        };
-        i++;
-      }
-    }
-    console.table(deckOfCards);
-    return deckOfCards;
-  }
-}
-
-const suites = ["diamonds", "hearts", "clubs", "spades"];
-const ranks = [
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "J",
-  "Q",
-  "K",
-  "A"
-];
 
 export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       cardsOnTable: [],
-      numberOfCards: 8,
+      numberOfPairs: 4,
       numberOfTurnedCards: 0,
       disableClicking: false
     };
@@ -156,23 +113,24 @@ export class App extends Component {
   }
 
   shuffle() {
-    let i;
-    let halfOfRandomCards = [];
+    let pairs = [];
     let cardsInRandomOrder = [];
-    for (i = 0; i < this.state.numberOfCards / 2; i++) {
-      // choose suite randomly
-      const suite = getRandomInt(4);
-      // choose card name randomly
-      const rank = getRandomInt(13);
-      halfOfRandomCards[i] = {
-        suite: suites[suite],
-        rank: ranks[rank]
-      };
+    let deck = Deck.getDeck();
+    // pick numberOfPairs cards from the Deck
+    for (let i = 0; i < this.state.numberOfPairs; i++) {
+      // pick random card from the deck
+      let randomIndex = getRandomInt(deck.length);
+      pairs[i] = deck[randomIndex];
+      // remove card so that we can't pick it up later
+      deck.splice(randomIndex, 1);
     }
-    const randomCards = halfOfRandomCards.concat(halfOfRandomCards);
-    // we have now all of our cards but the order is not randomly
-    // let's fix that
-    for (i = 0; i < this.state.numberOfCards; i++) {
+
+    // every pair contains 2 cards, let's put all the cards into an array
+    const randomCards = pairs.concat(pairs);
+    // we have now all of our cards but the order is not random
+    // let's make a array where all the cards are in random order and add more
+    // properties to each card
+    for (let i = 0; i < this.state.numberOfPairs * 2; i++) {
       let randomIndex = getRandomInt(randomCards.length);
       let card = randomCards[randomIndex];
       cardsInRandomOrder[i] = {
