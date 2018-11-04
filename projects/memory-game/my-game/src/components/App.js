@@ -10,6 +10,24 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
+class Deck {
+  static getDeck() {
+    let i = 0;
+    let deckOfCards = [];
+    for (let suite = 0; suite < 4; suite++) {
+      for (let rank = 0; rank < 13; rank++) {
+        deckOfCards[i] = {
+          suite: suites[suite],
+          rank: ranks[rank]
+        };
+        i++;
+      }
+    }
+    console.table(deckOfCards);
+    return deckOfCards;
+  }
+}
+
 const suites = ["diamonds", "hearts", "clubs", "spades"];
 const ranks = [
   "2",
@@ -37,6 +55,7 @@ export class App extends Component {
       disableClicking: false
     };
     this.clickCard = this.clickCard.bind(this);
+    Deck.getDeck();
   }
 
   componentDidMount() {
