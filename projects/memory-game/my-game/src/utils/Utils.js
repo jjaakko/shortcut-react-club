@@ -57,7 +57,7 @@ export class Deck {
     // remove card so that the same card can't be picked again
     this.deck.splice(randomIndex, 1);
 
-    // the line below would change card as well
+    // the line below would change the value of card.something as well
     // this.deck[randomIndex].something = 5;
     // so how come it be that when the orignal object is removed, the card still has its value?
 
