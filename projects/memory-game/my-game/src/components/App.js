@@ -27,85 +27,78 @@ export class App extends Component {
 
     // Instead, let's make a deep copy
     let cardsOnTable = JSON.parse(JSON.stringify(this.state.cardsOnTable));
+    let disableClicking = false;
 
+    // turn the card
     cardsOnTable[id].visibility = true;
-
+    // add number of turned cards
+    const numberOfTurnedCards = this.state.numberOfTurnedCards + 1;
+    if (this.lookingForSecondCard(numberOfTurnedCards)) {
+      let pair = this.playerHasPair(cardsOnTable);
+      if (Array.isArray(pair) == true) {
+        cardsOnTable[pair[0]].hasPair = true;
+        cardsOnTable[pair[1]].hasPair = true;
+      } else {
+        // set timeout only if player did not find a pair
+        window.setTimeout(() => {
+          let cardsOnTable = JSON.parse(
+            JSON.stringify(this.state.cardsOnTable)
+          );
+          cardsOnTable = this.hideAllButPairs(cardsOnTable);
+          this.setState({
+            cardsOnTable: cardsOnTable,
+            disableClicking: false
+          });
+        }, 1500);
+        // prevent clicking cards during the timeout
+        disableClicking = true;
+      }
+    }
     this.setState({
       cardsOnTable: cardsOnTable,
-      numberOfTurnedCards: this.state.numberOfTurnedCards + 1
+      numberOfTurnedCards: numberOfTurnedCards,
+      disableClicking: disableClicking
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("k" + this.state.numberOfTurnedCards);
-    // to prevent infinite loop, we must check for a pair ONLY
-    // if the event causing the call of componentDidUpdate is player clicking a card
-    // instead of the game just updating the state (for example hiding the cards)
-    // see https://reactjs.org/docs/react-component.html#componentdidupdate
-    if (
-      this.state.numberOfTurnedCards !== prevState.numberOfTurnedCards &&
-      this.lookingForSecondCard()
-    ) {
-      console.log("2nd click");
-      if (!this.playerHasPair()) {
-        // set timeout only if player did not find a pair
-        window.setTimeout(() => {
-          this.hideAllButPairs();
-          this.setState({
-            disableClicking: false
-          });
-        }, 1500);
-        this.setState({
-          disableClicking: true
-        });
-      }
-    }
+    console.log("Component updated");
   }
 
-  hideAllButPairs() {
-    let cardsOnTable = JSON.parse(JSON.stringify(this.state.cardsOnTable));
-
-    cardsOnTable.forEach(function(card, index) {
+  hideAllButPairs(cards) {
+    cards.forEach(function(card, index) {
       // hide card if the pair of this card is not found yet
       if (!card.hasPair) card.visibility = false;
     });
-    this.setState({
-      cardsOnTable: cardsOnTable
-    });
+    return cards;
   }
 
-  getVisibleNoPairCardIds() {
+  /**
+   * [getVisibleNoPairCardIds description]
+   * @param  {[type]} cards [description]
+   * @return {[type]}       [description]
+   */
+  getVisibleNoPairCardIds(cards) {
     let visible = [];
-    this.state.cardsOnTable.forEach(function(card, index) {
+    cards.forEach(function(card, index) {
       if (card.visibility === true && card.hasPair === false)
         visible.push(card.id);
     });
     return visible;
   }
 
-  playerHasPair() {
-    const visible = this.getVisibleNoPairCardIds();
+  playerHasPair(cards) {
+    const visible = this.getVisibleNoPairCardIds(cards);
     if (visible.length < 2) return false;
-    if (
-      this.state.cardsOnTable[visible[0]].suite ===
-        this.state.cardsOnTable[visible[1]].suite &&
-      this.state.cardsOnTable[visible[0]].rank ===
-        this.state.cardsOnTable[visible[1]].rank
-    ) {
+    if (Deck.areTwoCardsSame(cards[visible[0]], cards[visible[1]])) {
       console.log("New pair found");
-      let cardsOnTable = JSON.parse(JSON.stringify(this.state.cardsOnTable));
-      cardsOnTable[visible[0]].hasPair = true;
-      cardsOnTable[visible[1]].hasPair = true;
-      this.setState({
-        cardsOnTable: cardsOnTable
-      });
-      return true;
+      return visible;
     }
     return false;
   }
 
-  lookingForSecondCard() {
-    if (this.state.numberOfTurnedCards % 2 === 0) {
+  lookingForSecondCard(numberOfTurnedCards) {
+    if (numberOfTurnedCards % 2 === 0) {
       return true;
     }
     return false;

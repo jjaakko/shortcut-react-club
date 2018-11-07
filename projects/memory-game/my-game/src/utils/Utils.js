@@ -57,4 +57,11 @@ export class Deck {
     this.deck.splice(randomIndex, 1);
     return card;
   }
+
+  static areTwoCardsSame(card1, card2) {
+    if (card1.suite === card2.suite && card1.rank === card2.rank) {
+      return true;
+    }
+    return false;
+  }
 }
