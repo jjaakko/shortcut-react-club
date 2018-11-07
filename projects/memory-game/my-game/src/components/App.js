@@ -21,6 +21,9 @@ export class App extends Component {
     this.shuffle();
   }
 
+  /**
+   * Setup new game
+   */
   playAgain() {
     this.shuffle();
     this.setState({
@@ -28,13 +31,16 @@ export class App extends Component {
     });
   }
 
+  /**
+   * Handle card click
+   * @param id An id of the card clicked
+   */
   clickCard(id) {
     console.log("Card " + id + " clicked!");
-    // NNO!! This leads cardsOnTable to reference this.state.cardsOnTable
+    // let cardsOnTable = this.state.cardsOnTable;
+    // This leads cardsOnTable to reference this.state.cardsOnTable
     // changing cardsOnTable would lead to changing the actual state
     // without using setState...
-    // let cardsOnTable = this.state.cardsOnTable;
-
     // Instead, let's make a deep copy
     let cardsOnTable = JSON.parse(JSON.stringify(this.state.cardsOnTable));
     let disableClicking = false;
@@ -83,6 +89,13 @@ export class App extends Component {
     console.log("Component updated");
   }
 
+  /**
+   * Hide all cards except pairs.
+   * Call this function when player has clicked two cards
+   * but have not found pairs.
+   * @param [array] cards An array of card objects
+   * @return [array] An array of card object where all cards except pairs are hidden
+   */
   hideAllButPairs(cards) {
     cards.forEach(function(card, index) {
       // hide card if the pair of this card is not found yet
@@ -92,9 +105,9 @@ export class App extends Component {
   }
 
   /**
-   * [getVisibleNoPairCardIds description]
-   * @param  {[type]} cards [description]
-   * @return {[type]}       [description]
+   * Get all cards player has just turned visible. Exclude previously found pairs.
+   * @param [array] cards An array of card objects
+   * @return [array] An array of ids of visible cards exlcuding previously found pairs.
    */
   getVisibleNoPairCardIds(cards) {
     let visible = [];
@@ -105,6 +118,11 @@ export class App extends Component {
     return visible;
   }
 
+  /**
+   * Checks if player has just picked up a pair.
+   * @param [array] cards An array of card objects
+   * @return [array/boolean] An array of ids of newly found pair or boolean false.
+   */
   playerHasPair(cards) {
     const visible = this.getVisibleNoPairCardIds(cards);
     if (visible.length < 2) return false;
@@ -115,6 +133,11 @@ export class App extends Component {
     return false;
   }
 
+  /**
+   * Check if player has picked up the second card on this turn.
+   * @param  [int] numberOfTurnedCards the number of card player has turned visible so far
+   * @return [boolean]
+   */
   lookingForSecondCard(numberOfTurnedCards) {
     if (numberOfTurnedCards % 2 === 0) {
       return true;
@@ -122,6 +145,11 @@ export class App extends Component {
     return false;
   }
 
+  /**
+   * Check if player has found all pairs
+   * @param [array] cards An array of card objects
+   * @return [boolean]
+   */
   playerWins(cards) {
     for (let i = 0; i < cards.length; i++) {
       if (cards[i].hasPair === false) return false;
@@ -129,6 +157,9 @@ export class App extends Component {
     return true;
   }
 
+  /**
+   * Shuffle the deck for a new game
+   */
   shuffle() {
     let pairs = [];
     let cardsInRandomOrder = [];
