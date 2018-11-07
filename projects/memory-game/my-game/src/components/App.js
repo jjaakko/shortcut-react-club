@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { getRandomInt, Deck } from "../utils/Utils.js";
 import { Card } from "./Card.js";
+import { Modal } from "./Modal.js";
 
 export class App extends Component {
   constructor(props) {
@@ -9,13 +10,22 @@ export class App extends Component {
       cardsOnTable: [],
       numberOfPairs: 4,
       numberOfTurnedCards: 0,
-      disableClicking: false
+      disableClicking: false,
+      modal: false
     };
     this.clickCard = this.clickCard.bind(this);
+    this.playAgain = this.playAgain.bind(this);
   }
 
   componentDidMount() {
     this.shuffle();
+  }
+
+  playAgain() {
+    this.shuffle();
+    this.setState({
+      modal: false
+    });
   }
 
   clickCard(id) {
@@ -35,9 +45,17 @@ export class App extends Component {
     const numberOfTurnedCards = this.state.numberOfTurnedCards + 1;
     if (this.lookingForSecondCard(numberOfTurnedCards)) {
       let pair = this.playerHasPair(cardsOnTable);
+      // why pair == true evaluates to false even if pair is not an empty array
       if (Array.isArray(pair) == true) {
         cardsOnTable[pair[0]].hasPair = true;
         cardsOnTable[pair[1]].hasPair = true;
+        if (this.playerWins(cardsOnTable)) {
+          window.setTimeout(() => {
+            this.setState({
+              modal: true
+            });
+          }, 400);
+        }
       } else {
         // set timeout only if player did not find a pair
         window.setTimeout(() => {
@@ -104,6 +122,13 @@ export class App extends Component {
     return false;
   }
 
+  playerWins(cards) {
+    for (let i = 0; i < cards.length; i++) {
+      if (cards[i].hasPair === false) return false;
+    }
+    return true;
+  }
+
   shuffle() {
     let pairs = [];
     let cardsInRandomOrder = [];
@@ -142,14 +167,10 @@ export class App extends Component {
     return (
       <div className="MemoryApp">
         <div className={"game"}>
-          <div className={"modal"}>
-            <div className={"menu"}>
-              <h2 className={"white"}>Congrats !</h2>
-
-              <div className="menuItem"> Play Again </div>
-              <div className="menuItem"> Main Menu </div>
-            </div>
-          </div>
+          <Modal
+            classes={this.state.modal === true ? " open" : ""}
+            playAgain={this.playAgain}
+          />
 
           {this.state.cardsOnTable.map((card, index) => (
             <Card
