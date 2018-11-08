@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { getRandomInt, Deck } from "../utils/Utils.js";
 import { Card } from "./Card.js";
-import { Modal } from "./Modal.js";
+import { PlayerWins } from "./PlayerWins.js";
+import { MainMenu } from "./MainMenu.js";
 
 export class App extends Component {
   constructor(props) {
@@ -11,10 +12,12 @@ export class App extends Component {
       numberOfPairs: 4,
       numberOfTurnedCards: 0,
       disableClicking: false,
-      modal: true
+      modalPlayerWins: true,
+      modalMainMenu: false
     };
     this.clickCard = this.clickCard.bind(this);
     this.playAgain = this.playAgain.bind(this);
+    this.mainMenu = this.mainMenu.bind(this);
   }
 
   componentDidMount() {
@@ -27,7 +30,15 @@ export class App extends Component {
   playAgain() {
     this.shuffle();
     this.setState({
-      modal: false
+      modalPlayerWins: false,
+      modalMainMenu: false
+    });
+  }
+
+  mainMenu() {
+    this.setState({
+      modalPlayerWins: false,
+      modalMainMenu: true
     });
   }
 
@@ -202,11 +213,14 @@ export class App extends Component {
     return (
       <div className="MemoryApp">
         <div className={"game"}>
-          <Modal
-            classes={this.state.modal === true ? " open" : ""}
-            title={"Congratulations!"}
+          <PlayerWins
+            classes={this.state.modalPlayerWins === true ? " open" : ""}
             playAgain={this.playAgain}
-            menuItems={menuItems}
+            mainMenu={this.mainMenu}
+          />
+          <MainMenu
+            classes={this.state.modalMainMenu === true ? " open" : ""}
+            playAgain={this.playAgain}
           />
 
           {this.state.cardsOnTable.map((card, index) => (
