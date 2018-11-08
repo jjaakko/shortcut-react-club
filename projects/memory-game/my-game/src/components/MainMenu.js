@@ -7,9 +7,11 @@ export function MainMenu(props) {
         <h2 className={"white"}>Main Menu</h2>
 
         <div className="menuItem" onClick={props.playAgain}>
-          Play Again
+          Play a new game
         </div>
-        <div className="menuItem">Select difficulty</div>
+        <div className="menuItem" onClick={props.selectDifficulty}>
+          Select difficulty
+        </div>
       </div>
     </div>
   );

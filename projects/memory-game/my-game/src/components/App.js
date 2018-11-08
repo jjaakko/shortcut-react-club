@@ -3,6 +3,7 @@ import { getRandomInt, Deck } from "../utils/Utils.js";
 import { Card } from "./Card.js";
 import { PlayerWins } from "./PlayerWins.js";
 import { MainMenu } from "./MainMenu.js";
+import { SelectDifficulty } from "./SelectDifficulty.js";
 
 export class App extends Component {
   constructor(props) {
@@ -12,12 +13,18 @@ export class App extends Component {
       numberOfPairs: 4,
       numberOfTurnedCards: 0,
       disableClicking: false,
-      modalPlayerWins: true,
-      modalMainMenu: false
+      modalPlayerWins: false,
+      modalMainMenu: true,
+      modalSelectDifficulty: false,
+      difficulty: "easy",
+      timeWhileVisible: 1500
     };
     this.clickCard = this.clickCard.bind(this);
     this.playAgain = this.playAgain.bind(this);
     this.mainMenu = this.mainMenu.bind(this);
+    this.selectDifficulty = this.selectDifficulty.bind(this);
+    this.difficultyEasy = this.difficultyEasy.bind(this);
+    this.difficultyHard = this.difficultyHard.bind(this);
   }
 
   componentDidMount() {
@@ -31,14 +38,40 @@ export class App extends Component {
     this.shuffle();
     this.setState({
       modalPlayerWins: false,
-      modalMainMenu: false
+      modalMainMenu: false,
+      modalSelectDifficulty: false
     });
   }
 
   mainMenu() {
     this.setState({
       modalPlayerWins: false,
-      modalMainMenu: true
+      modalMainMenu: true,
+      modalSelectDifficulty: false
+    });
+  }
+
+  selectDifficulty() {
+    this.setState({
+      modalPlayerWins: false,
+      modalMainMenu: false,
+      modalSelectDifficulty: true
+    });
+  }
+
+  difficultyEasy() {
+    this.setState({
+      difficulty: "easy",
+      numberOfPairs: 4,
+      timeWhileVisible: 1500
+    });
+  }
+
+  difficultyHard() {
+    this.setState({
+      difficulty: "hard",
+      numberOfPairs: 8,
+      timeWhileVisible: 500
     });
   }
 
@@ -66,10 +99,12 @@ export class App extends Component {
       if (Array.isArray(pair) == true) {
         cardsOnTable[pair[0]].hasPair = true;
         cardsOnTable[pair[1]].hasPair = true;
+        // check if player has found all pairs
         if (this.playerWins(cardsOnTable)) {
+          // show Congratulations modal after a small delay
           window.setTimeout(() => {
             this.setState({
-              modal: true
+              modalPlayerWins: true
             });
           }, 400);
         }
@@ -84,7 +119,7 @@ export class App extends Component {
             cardsOnTable: cardsOnTable,
             disableClicking: false
           });
-        }, 1500);
+        }, this.state.timeWhileVisible);
         // prevent clicking cards during the timeout
         disableClicking = true;
       }
@@ -206,10 +241,6 @@ export class App extends Component {
   }
 
   render() {
-    const menuItems = [
-      { title: "Title 1", callback: this.playAgain },
-      { title: "Main menu", callback: this.playAgain }
-    ];
     return (
       <div className="MemoryApp">
         <div className={"game"}>
@@ -221,6 +252,14 @@ export class App extends Component {
           <MainMenu
             classes={this.state.modalMainMenu === true ? " open" : ""}
             playAgain={this.playAgain}
+            selectDifficulty={this.selectDifficulty}
+          />
+          <SelectDifficulty
+            classes={this.state.modalSelectDifficulty === true ? " open" : ""}
+            difficulty={this.state.difficulty}
+            difficultyEasy={this.difficultyEasy}
+            difficultyHard={this.difficultyHard}
+            mainMenu={this.mainMenu}
           />
 
           {this.state.cardsOnTable.map((card, index) => (

@@ -7,7 +7,7 @@ body {
   padding: 0;
   font-family: sans-serif;
   height: inherit;
-  background: #E1DC9C;
+  background: #e1dc9c;
 }
 
 #root {
@@ -38,6 +38,9 @@ body {
   box-shadow: 3px 3px 7px rgba(68, 67, 47, 0.3);
   transition: 0.3s;
   margin: 1rem 0;
+}
+.menu .menuItem.chosen {
+  background: #e1dc9c;
 }
 .menu .menuItem:hover {
   cursor: pointer;
@@ -108,19 +111,23 @@ body {
   right: 5px;
   bottom: 5px;
 }
-.card.diamonds:before, .card.diamonds:after {
+.card.diamonds:before,
+.card.diamonds:after {
   content: "♦";
   color: #ff0000;
 }
-.card.hearts:before, .card.hearts:after {
+.card.hearts:before,
+.card.hearts:after {
   content: "♥";
   color: #ff0000;
 }
-.card.clubs:before, .card.clubs:after {
+.card.clubs:before,
+.card.clubs:after {
   content: "♣";
   color: #000;
 }
-.card.spades:before, .card.spades:after {
+.card.spades:before,
+.card.spades:after {
   content: "♠";
   color: #000;
 }
@@ -130,7 +137,8 @@ body {
 .card.hidden:hover {
   background: url("./suits.png");
 }
-.card.hidden:after, .card.hidden:before {
+.card.hidden:after,
+.card.hidden:before {
   content: "";
 }
 .card.hidden p {
