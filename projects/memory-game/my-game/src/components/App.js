@@ -40,7 +40,8 @@ export class App extends Component {
     this.setState({
       modalPlayerWins: false,
       modalMainMenu: false,
-      modalSelectDifficulty: false
+      modalSelectDifficulty: false,
+      numberOfTurnedCards: 0
     });
   }
 
