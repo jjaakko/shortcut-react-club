@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { getRandomInt, Deck } from "../utils/Utils.js";
 import { Card } from "./Card.js";
+import { Counter } from "./Counter.js";
 import { PlayerWins } from "./PlayerWins.js";
 import { MainMenu } from "./MainMenu.js";
 import { SelectDifficulty } from "./SelectDifficulty.js";
@@ -243,6 +244,7 @@ export class App extends Component {
   render() {
     return (
       <div className="MemoryApp">
+        <Counter count={this.state.numberOfTurnedCards} />
         <div className={"game"}>
           <PlayerWins
             classes={this.state.modalPlayerWins === true ? " open" : ""}
