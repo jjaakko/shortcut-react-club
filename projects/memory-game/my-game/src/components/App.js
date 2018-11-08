@@ -11,7 +11,7 @@ export class App extends Component {
       numberOfPairs: 4,
       numberOfTurnedCards: 0,
       disableClicking: false,
-      modal: false
+      modal: true
     };
     this.clickCard = this.clickCard.bind(this);
     this.playAgain = this.playAgain.bind(this);
@@ -195,12 +195,18 @@ export class App extends Component {
   }
 
   render() {
+    const menuItems = [
+      { title: "Title 1", callback: this.playAgain },
+      { title: "Main menu", callback: this.playAgain }
+    ];
     return (
       <div className="MemoryApp">
         <div className={"game"}>
           <Modal
             classes={this.state.modal === true ? " open" : ""}
+            title={"Congratulations!"}
             playAgain={this.playAgain}
+            menuItems={menuItems}
           />
 
           {this.state.cardsOnTable.map((card, index) => (
